@@ -36,9 +36,9 @@ const en: Dictionary = {
   language: { label: "Language" },
   hero: {
     badge: "Join 1,000+ online shops",
-    titleLead: "Turn Live comments into",
-    titleAccent: "orders",
-    titleTail: "automatically",
+    titleLead: "Exchange user to your",
+    titleAccent: "Customers",
+    titleTail: "",
     subtitle:
       "From the moment a customer types “CF” in your Live to the parcel on their doorstep, Mydorf handles it all in one place — across Facebook, TikTok and LINE OA.",
     ctaTrial: "Start 14-Day Free Trial",
@@ -52,22 +52,30 @@ const en: Dictionary = {
     ],
   },
   valueProps: {
-    eyebrow: "Mydorf Power",
-    title: "Why online sellers choose Mydorf",
+    eyebrow: "Mydorf",
+    title: "Why choose Mydorf",
     description:
-      "Everything an online shop needs, from Live to delivery, in one system.",
+      "Everything an online shop needs, end to end, in a single system.",
     cards: [
       {
-        title: "Live Comment Capture",
-        body: "Automatically catch orders — CF, product codes and keywords — from your Live comments so no order slips away.",
+        title: "Capture orders in 1 second",
+        body: "Built for big Lives — handles more than 10,000 orders.",
       },
       {
-        title: "Auto Order Creation",
-        body: "Turn comments into orders, deduct stock and send a payment link to the customer instantly.",
+        title: "Switching systems? We'll do it for you",
+        body: "Whatever system you're on today, we'll help you move to Mydorf the easy way.",
       },
       {
-        title: "End-to-End Shipping",
-        body: "Print labels, connect couriers and track every parcel from one place.",
+        title: "Build your own campaigns & promotions",
+        body: "Set up promotions, discounts and coupons however you like — and actually drive sales.",
+      },
+      {
+        title: "Turn points into loyal customers",
+        body: "Build the relationship, grow repeat purchases, turn buyers into regulars.",
+      },
+      {
+        title: "Analyse your data from every angle",
+        body: "See everything in real time and plan your marketing with precision.",
       },
     ],
   },

@@ -147,3 +147,12 @@
     font-family: var(--font-jakarta), var(--font-sukhumvit), system-ui, sans-serif;
   }
 }
+
+/* Functional utility — must live at the top level, not inside @layer, because
+   `--value()` is part of Tailwind's @utility API. Resolves either form:
+     text-stroke-2       → width  (integer)
+     text-stroke-accent  → colour (from the --color-* theme namespace) */
+@utility text-stroke-* {
+  -webkit-text-stroke-width: calc(--value(integer) * 1px);
+  -webkit-text-stroke-color: --value(--color-*, [color]);
+}

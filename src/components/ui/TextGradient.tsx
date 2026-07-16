@@ -26,7 +26,7 @@ export function TextGradient<T extends ElementType = "span">({
 
   return (
     <Tag
-      className={`bg-clip-text text-transparent [-webkit-background-clip:text] ${className}`}
+      className={`bg-clip-text text-transparent font-jakarta py-2 [-webkit-background-clip:text] ${className}`}
       style={{
         backgroundImage: `linear-gradient(${angle}deg, ${from}, ${to})`,
       }}
