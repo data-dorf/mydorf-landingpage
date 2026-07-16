@@ -1,26 +1,149 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* `th:` / `en:` variants — keyed off <html lang>, set by the [locale] layout.
+   Thai script reads badly with tight tracking, so headings can opt out with
+   e.g. `tracking-tight th:tracking-normal`. */
+@custom-variant th (&:where(html[lang="th"] *));
+@custom-variant en (&:where(html[lang="en"] *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ---------------------------------------------------------------------------
+   Mydorf — design tokens (source of truth: src/lib/theme.ts)
+   Purple / indigo + cyan palette. Light is the default; dark applies via the
+   OS preference or an explicit [data-theme="dark"] on <html>.
+--------------------------------------------------------------------------- */
+:root {
+  --background: #f5f1ff;
+  --surface: #ffffff;
+  --surface-2: #fbf9ff;
+  --secondary: #151256;
+  --foreground: #151256;
+  --muted: #6a6795;
+  --border: #e6defa;
+  --accent: #6a48f7;
+  --accent-solid: #6a48f7;
+  --accent-foreground: #ffffff;
+  --accent-2: #26c9e8;
+  --accent-glow: rgba(38, 201, 232, 0.05);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #131313;
+    --surface: #1a1a1e;
+    --surface-2: #232329;
+    --secondary: #0d0c31;
+    --foreground: #f4f3f8;
+    --muted: #9c9aa8;
+    --border: #2a2a31;
+    --accent: #7b5cff;
+    --accent-solid: #341ce9;
+    --accent-foreground: #ffffff;
+    --accent-2: #52e1fc;
+    --accent-glow: rgba(82, 225, 252, 0.05);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Explicit override wins over the media query in both directions. */
+:root[data-theme="light"] {
+  --background: #f5f1ff;
+  --surface: #ffffff;
+  --surface-2: #fbf9ff;
+  --secondary: #151256;
+  --foreground: #151256;
+  --muted: #6a6795;
+  --border: #e6defa;
+  --accent: #6a48f7;
+  --accent-solid: #6a48f7;
+  --accent-foreground: #ffffff;
+  --accent-2: #26c9e8;
+  --accent-glow: rgba(38, 201, 232, 0.05);
+}
+
+:root[data-theme="dark"] {
+  --background: #131313;
+  --surface: #1a1a1e;
+  --surface-2: #232329;
+  --secondary: #0d0c31;
+  --foreground: #f4f3f8;
+  --muted: #9c9aa8;
+  --border: #2a2a31;
+  --accent: #7b5cff;
+  --accent-solid: #341ce9;
+  --accent-foreground: #ffffff;
+  --accent-2: #52e1fc;
+  --accent-glow: rgba(82, 225, 252, 0.05);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-secondary: var(--secondary);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-solid: var(--accent-solid);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-2: var(--accent-2);
+
+  /* Default UI font: self-hosted Sukhumvit Set, then Plus Jakarta (Latin)
+     and platform Thai fonts as fallbacks. */
+  --font-sans:
+    var(--font-sukhumvit), var(--font-jakarta), "Noto Sans Thai", system-ui,
+    sans-serif;
+  --font-mono: var(--font-geist-mono);
+
+  --radius: 1rem;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+}
+
+@layer utilities {
+  .container-x {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  /* Subtle radial glow used behind hero / CTA (cyan tint from the palette). */
+  .glow-accent {
+    background: radial-gradient(
+      50% 50% at 50% 0%,
+      color-mix(in oklab, var(--accent) 20%, transparent) 0%,
+      var(--accent-glow) 55%,
+      transparent 100%
+    );
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Plus Jakarta Sans — opt-in display font (Latin). Thai glyphs fall back to
+     Sukhumvit so mixed TH/EN headings stay consistent. */
+  .font-jakarta {
+    font-family: var(--font-jakarta), var(--font-sukhumvit), system-ui, sans-serif;
+  }
 }
