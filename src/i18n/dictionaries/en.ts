@@ -23,7 +23,7 @@ const en: Dictionary = {
     ogAlt: "Mydorf — Live Selling COS for online sellers",
   },
   nav: {
-    links: ["Features", "Pricing", "How it works", "Reviews", "Contact"],
+    links: ["Features", "Pricing", "How it works", "Contact"],
     login: "Login",
     cta: "Start Trial",
   },

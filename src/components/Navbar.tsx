@@ -3,11 +3,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { Menu, X } from "lucide-react";
 import { Button } from "./ui/Button";
 import { PreferencesMenu } from "./PreferencesMenu";
 import type { Dictionary } from "@/i18n";
 import logoMark from "@/../public/images/logo/logo-only.svg";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const SECTION_HREFS = [
   "#features",
@@ -20,6 +25,7 @@ const SECTION_HREFS = [
 export function Navbar({ dict, locale }: { dict: Dictionary; locale: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -27,6 +33,25 @@ export function Navbar({ dict, locale }: { dict: Dictionary; locale: string }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Scroll-spy: highlight the link whose section owns the middle of the
+  // viewport. The sections live in sibling components, so they're looked up by
+  // id rather than by ref. Sections in between that have no id simply leave the
+  // previous link highlighted, which reads fine.
+  useGSAP(() => {
+    SECTION_HREFS.forEach((href) => {
+      const el = document.querySelector(href);
+      if (!el) return;
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 50%",
+        end: "bottom 50%",
+        onToggle: (self) => {
+          if (self.isActive) setActiveHref(href);
+        },
+      });
+    });
+  });
 
   const navLinks = dict.nav.links.map((label, i) => ({
     label,
@@ -61,7 +86,12 @@ export function Navbar({ dict, locale }: { dict: Dictionary; locale: string }) {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-base text-muted font-medium transition-colors hover:text-foreground"
+                    aria-current={activeHref === link.href ? "true" : undefined}
+                    className={`text-base transition-all ease-in-out duration-100 ${
+                      activeHref === link.href
+                        ? "text-accent font-bold tracking-wide text-lg"
+                        : "text-muted/60 font-medium hover:text-foreground"
+                    }`}
                   >
                     {link.label}
                   </Link>
@@ -100,7 +130,12 @@ export function Navbar({ dict, locale }: { dict: Dictionary; locale: string }) {
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-lg px-3 py-2 text-sm text-muted hover:bg-surface-2 hover:text-foreground"
+                    aria-current={activeHref === link.href ? "true" : undefined}
+                    className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
+                      activeHref === link.href
+                        ? "bg-surface-2 font-semibold text-accent"
+                        : "text-muted hover:bg-surface-2 hover:text-foreground"
+                    }`}
                   >
                     {link.label}
                   </Link>

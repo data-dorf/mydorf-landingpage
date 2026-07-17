@@ -78,7 +78,7 @@ export function Pricing({
                   }`}
                 >
                   {plan.popular && (
-                    <span className="absolute right-0 top-0 rounded-bl-lg bg-accent-solid/90 px-6 py-2 text-sm font-semibold uppercase tracking-wide text-accent-foreground">
+                    <span className="absolute right-0 top-0 rounded-bl-lg bg-accent-solid/90 px-6 py-2 text-sm font-medium uppercase tracking-wide text-accent-foreground">
                       {dict.mostPopular}
                     </span>
                   )}

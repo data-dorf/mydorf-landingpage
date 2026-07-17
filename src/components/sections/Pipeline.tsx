@@ -2,111 +2,155 @@
 
 import { useRef, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Radio, Receipt, Truck, ArrowUpRight } from "lucide-react";
+import { Radio, Receipt, Truck, Check } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import type { Dictionary } from "@/i18n";
 
-const ICONS = [Radio, Receipt, Truck];
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+// Paired with dict.pipeline.tools by index. Add a tool to the dictionary and
+// drop an icon here — the nav and the content column both grow automatically.
+const IMAGES_FEATURE = [Radio, Receipt, Truck];
 
 export function Pipeline({ dict }: { dict: Dictionary["pipeline"] }) {
   const [active, setActive] = useState(0);
-  const panelRef = useRef<HTMLDivElement>(null);
+  const scope = useRef<HTMLElement>(null);
+  const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(
     () => {
-      gsap.fromTo(
-        panelRef.current,
-        { autoAlpha: 0, x: 16 },
-        { autoAlpha: 1, x: 0, duration: 0.6, ease: "power3.out" },
-      );
+      itemsRef.current.forEach((el, i) => {
+        if (!el) return;
+
+        // Scroll-spy: whichever block owns the middle of the viewport wins.
+        // onToggle fires in both scroll directions, so no separate enter/back.
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top 55%",
+          end: "bottom 55%",
+          onToggle: (self) => {
+            if (self.isActive) setActive(i);
+          },
+        });
+
+        // Focus effect, scrubbed to the scroll position: the block scales up
+        // and fades in on the way to centre, holds while in focus, then scales
+        // back down and fades out as it leaves.
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: el,
+              start: "top 95%",
+              end: "bottom 30%",
+              scrub: 0.6,
+            },
+            defaults: { transformOrigin: "center center" },
+          })
+          .fromTo(
+            el,
+            { opacity: 0.15, scale: 0.75 },
+            { opacity: 1, scale: 1, ease: "power2.out", duration: 2 },
+          )
+          .to(el, { opacity: 1, scale: 1, duration: 1.2 }) // hold in focus
+          .to(el, { opacity: 0.15, scale: 0.9, ease: "power2.in", duration: 1 });
+      });
     },
-    { dependencies: [active] },
+    { scope },
   );
 
-  const ActiveIcon = ICONS[active] ?? Radio;
-  const activeTool = dict.tools[active];
+  function goTo(i: number) {
+    // scroll-mt-32 on the target keeps it clear of the fixed navbar.
+    itemsRef.current[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   return (
-    <section id="how" className="py-24">
+    <section id="how" ref={scope} className="py-24">
       <div className="container-x">
-        <SectionHeading
-          eyebrow={dict.eyebrow}
-          title={dict.title}
-          description={dict.description}
-        />
+        <div className="grid gap-y-10 lg:grid-cols-[minmax(240px,450px)_1fr] lg:gap-x-16">
+          {/* Sticky rail — heading and nav pin together as one unit. Sticky can
+              only travel inside its own grid area, so they must share one. */}
+          <div className="lg:sticky lg:top-28 lg:col-start-1 lg:self-start">
+            <SectionHeading
+              eyebrow={dict.eyebrow}
+              title={dict.title}
+              align="left"
+            />
 
-        <div className="mt-14 grid gap-4 lg:grid-cols-[1fr_1.15fr]">
-          <div className="flex flex-col gap-3">
-            {dict.tools.map((tool, i) => {
-              const isActive = i === active;
-              const Icon = ICONS[i] ?? Radio;
-              return (
-                <button
-                  key={tool.title}
-                  onClick={() => setActive(i)}
-                  className={`flex items-center gap-4 rounded-2xl border p-5 text-left transition-all duration-300 ${
-                    isActive
-                      ? "border-accent/50 bg-surface"
-                      : "border-border bg-surface/40 hover:border-border hover:bg-surface"
-                  }`}
-                >
-                  <span
-                    className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-colors ${
+            <nav className="mt-10 flex flex-col" aria-label={dict.title}>
+              {dict.tools.map((tool, i) => {
+                const isActive = i === active;
+                return (
+                  <button
+                    key={tool.title}
+                    onClick={() => goTo(i)}
+                    aria-current={isActive ? "true" : undefined}
+                    className={`border-l-2 py-3 pl-8 text-left transition-all duration-300 ${
                       isActive
-                        ? "bg-accent-solid text-accent-foreground"
-                        : "bg-surface-2 text-muted"
+                        ? "border-accent font-bold text-accent text-lg tracking-wide"
+                        : "border-border font-extralight text-sm text-muted hover:border-muted hover:text-foreground"
                     }`}
                   >
-                    <Icon size={20} />
-                  </span>
-                  <span className="flex-1">
-                    <span className="block font-semibold tracking-tight">
-                      {tool.title}
-                    </span>
-                    <span
-                      className={`mt-0.5 block text-sm text-muted transition-all ${
-                        isActive ? "opacity-100" : "opacity-70"
-                      }`}
-                    >
-                      {tool.body}
-                    </span>
-                  </span>
-                  <ArrowUpRight
-                    size={18}
-                    className={`shrink-0 transition-colors ${
-                      isActive ? "text-accent" : "text-muted"
-                    }`}
-                  />
-                </button>
-              );
-            })}
+                    {tool.title}
+                  </button>
+                );
+              })}
+            </nav>
           </div>
 
-          <div
-            ref={panelRef}
-            className="relative flex min-h-[340px] flex-col justify-between overflow-hidden rounded-2xl border border-border bg-surface p-8"
-          >
-            <div className="glow-accent pointer-events-none absolute inset-x-0 top-0 h-40 opacity-60" />
-            <div className="relative">
-              <span className="grid h-14 w-14 place-items-center rounded-2xl bg-accent-solid text-accent-foreground">
-                <ActiveIcon size={26} />
-              </span>
-              <h3 className="mt-6 text-2xl font-semibold tracking-tight">
-                {activeTool.title}
-              </h3>
-              <p className="mt-3 max-w-md text-muted">{activeTool.body}</p>
+          <div className="lg:col-start-2">
+            <div
+              aria-hidden
+              className="pointer-events-none hidden select-none opacity-0 lg:block"
+            >
+              <SectionHeading
+                eyebrow={dict.eyebrow}
+                title={dict.title}
+                align="left"
+              />
             </div>
-            <ul className="relative mt-8 grid gap-3">
-              {activeTool.points.map((p) => (
-                <li key={p} className="flex items-center gap-3 text-sm">
-                  <span className="grid h-5 w-5 place-items-center rounded-full bg-accent/15 text-accent">
-                    ✓
-                  </span>
-                  {p}
-                </li>
-              ))}
-            </ul>
+
+            {/* Every tool stacked, one block each.
+                lg:mt-10 mirrors the nav's mt-10 so the two line up. */}
+            <div className="flex flex-col gap-20 lg:mt-10 lg:gap-28">
+            {dict.tools.map((tool, i) => {
+              const Image = IMAGES_FEATURE[i];
+              return (
+                <div
+                  key={tool.title}
+                  ref={(el) => {
+                    itemsRef.current[i] = el;
+                  }}
+                  className="scroll-mt-32 will-change-[transform,opacity]"
+                >
+                  {/* <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent-solid text-accent-foreground">
+                    <Icon size={22} />
+                  </span> */}
+                  <h3 className="mt-5 text-2xl font-bold tracking-tight th:tracking-normal">
+                    {tool.title}
+                  </h3>
+                  <p className="mt-3 max-w-xl text-muted font-extralight">{tool.body}</p>
+
+                  <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+                    {tool.points.map((p) => (
+                      <li key={p} className="flex items-center gap-2 text-sm">
+                        <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent/15 text-accent">
+                          <Check size={12} strokeWidth={3} />
+                        </span>
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Visual slot — swap for a real screenshot per tool later. */}
+                  <div className="relative mt-8 aspect-16/10 overflow-hidden rounded-2xl border border-border bg-surface">
+                    <div className="glow-accent pointer-events-none absolute inset-x-0 top-0 h-40 opacity-60" />
+                  </div>
+                </div>
+              );
+            })}
+            </div>
           </div>
         </div>
       </div>

@@ -24,7 +24,7 @@ const th: Dictionary = {
     ogAlt: "Mydorf — ระบบ COS สำหรับแม่ค้าออนไลน์",
   },
   nav: {
-    links: ["ฟีเจอร์", "ราคา", "วิธีใช้งาน", "รีวิว", "ติดต่อเรา"],
+    links: ["ฟีเจอร์", "ราคา", "วิธีการใช้งาน", "ติดต่อเรา"],
     login: "เข้าสู่ระบบ",
     cta: "เริ่มใช้ฟรี",
   },
@@ -53,7 +53,7 @@ const th: Dictionary = {
     ],
   },
   valueProps: {
-    eyebrow: "Mydorf",
+    eyebrow: "ฟีเจอร์",
     title: "ทำไมถึงควรเลือก Mydorf",
     description:
       "ทุกอย่างที่ร้านค้าออนไลน์ต้องการ ตั้งแต่ต้นน้ำจนถึงปลายน้ำ ครบจบในระบบเดียว",
@@ -81,8 +81,8 @@ const th: Dictionary = {
     ],
   },
   pipeline: {
-    eyebrow: "ระบบครบวงจร",
-    title: "ครบทุกขั้นตอน ตั้งแต่ไลฟ์จนถึงหน้าบ้านลูกค้า",
+    eyebrow: "วิธีการใช้งาน",
+    title: "รองรับทุกขั้นตอน End-to-End",
     description: "ระบบเดียวที่ทำงานตลอดเส้นทางการขายของคุณ",
     tools: [
       {
@@ -181,7 +181,7 @@ const th: Dictionary = {
     monthly: "รายเดือน",
     credits: "เครดิต",
     perUnit: "/เดือน",
-    mostPopular: "ยอดนิยม",
+    mostPopular: "แนะนำ",
     trialCta: "ทดลองใช้ฟรี 14 วัน",
     creditsUnit: "เครดิต",
     bonusLabel: "โบนัส",
