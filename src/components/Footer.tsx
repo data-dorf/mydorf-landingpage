@@ -25,10 +25,19 @@ export function Footer({
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <Link href={`/${locale}`} className="flex items-center gap-2">
-              <Image src={logoMark} alt="Mydorf" className="h-7 w-auto" />
+              <Image src={logoMark} alt="Mydorf" className="h-8 w-auto" />
               <span className="text-lg font-semibold tracking-tight">Mydorf</span>
             </Link>
             <p className="mt-4 max-w-xs text-sm text-muted">{dict.tagline}</p>
+
+            <dl className="mt-6 flex max-w-sm flex-col gap-3">
+              {dict.addresses.map((addr) => (
+                <div key={addr.label}>
+                  <dt className="text-sm font-semibold">{addr.label}</dt>
+                  <dd className="mt-0.5 text-sm text-muted">{addr.value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
           {dict.columns.map((col, colIndex) => (

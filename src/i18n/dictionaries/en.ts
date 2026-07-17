@@ -230,6 +230,18 @@ const en: Dictionary = {
   footer: {
     tagline:
       "The CRM that helps online sellers manage orders, from Live to delivery.",
+    addresses: [
+      {
+        label: "Company address",
+        value:
+          "555/268 Moo 1, Ban Thum, Muang Khon Kaen District, Khon Kaen 40000",
+      },
+      {
+        label: "Office location",
+        value:
+          "Regional Science Park Administration Building, Northeast 1 (Khon Kaen), 123 Moo 16, Kalapapruek Rd., Nai Mueang, Mueang District, Khon Kaen 40002",
+      },
+    ],
     columns: [
       {
         title: "Product",

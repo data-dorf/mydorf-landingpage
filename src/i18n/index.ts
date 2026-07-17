@@ -105,6 +105,8 @@ export interface Dictionary {
   };
   footer: {
     tagline: string;
+    /** Company / office addresses shown under the tagline. */
+    addresses: { label: string; value: string }[];
     columns: { title: string; links: string[] }[];
     rights: string;
     note: string;
