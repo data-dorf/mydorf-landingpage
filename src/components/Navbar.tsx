@@ -64,7 +64,7 @@ export function Navbar({ dict, locale }: { dict: Dictionary; locale: string }) {
         <nav
           className={`mt-4 flex items-center justify-between rounded-full border px-4 py-2.5 transition-all duration-300 ${
             scrolled
-              ? "border-border bg-surface/80 backdrop-blur-xl"
+              ? "border-border bg-surface backdrop-blur-xl"
               : "border-transparent bg-transparent"
           }`}
         >

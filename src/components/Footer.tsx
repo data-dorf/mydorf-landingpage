@@ -26,16 +26,21 @@ export function Footer({
             <div key={col.title}>
               <h4 className="text-sm font-semibold">{col.title}</h4>
               <ul className="mt-4 flex flex-col gap-3">
-                {col.links.map((link) => (
+                {col.links.map((link) => {
+                  const isAboutCompany = link === "เกี่ยวกับเรา" || link === "About us";
+                  const herfCompany = isAboutCompany ? "https://www.datadorf.co.th/" : "#"
+                  return (
                   <li key={link}>
                     <Link
-                      href="#"
+                      href={herfCompany}
+                      target="_blank"
                       className="text-sm text-muted transition-colors hover:text-foreground"
                     >
                       {link}
                     </Link>
                   </li>
-                ))}
+                )
+                })}
               </ul>
             </div>
           ))}

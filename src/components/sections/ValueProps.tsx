@@ -3,20 +3,20 @@ import { SectionHeading } from "../ui/SectionHeading";
 import { Reveal } from "../ui/Reveal";
 import type { Dictionary } from "@/i18n";
 
-// Unsplash photos (free license, commercial use OK, no attribution required),
-// matched to dict.cards by index. Sized/cropped by Unsplash before Next
-// optimises them. `alt` comes from the card title so it stays translated.
-const IMAGES = [
-  // ดูดออเดอร์ภายใน 1 วินาที — filming a live on a phone
-  "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=800&q=80",
-  // ย้ายระบบได้ เราทำให้ — a helping hand / team support
-  "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=800&q=80",
-  // สร้างแคมเปญ โปรโมชั่น — a discount sign
-  "https://images.unsplash.com/photo-1561069934-eee225952461?auto=format&fit=crop&w=800&q=80",
-  // ลูกค้าสะสมคะแนน — a happy repeat customer
-  "https://images.unsplash.com/photo-1713256752744-fad1d7a8684c?auto=format&fit=crop&w=800&q=80",
-  // วิเคราะห์ข้อมูลได้ลึกทุกมิติ — an analytics dashboard
-  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+/**
+ * Card media, paired with dict.cards by index. Swap the third entry for
+ * `{ video: "/animated/ValueProps/<name>.webm" }` once that clip is finished —
+ * nothing else needs to change.
+ */
+type CardMedia = { video: string } | { image: string };
+
+const MEDIA: CardMedia[] = [
+  // ดูดออเดอร์ภายใน 1 วินาที
+  { video: "/animated/ValueProps/absorb-comment.webm" },
+  // ย้ายระบบได้ เราทำให้
+  { video: "/animated/ValueProps/transfer-db.webm" },
+  // วิเคราะห์ข้อมูลได้ลึกทุกมิติ
+  { video: "/animated/ValueProps/analysis.webm" },
 ];
 
 export function ValueProps({ dict }: { dict: Dictionary["valueProps"] }) {
@@ -30,19 +30,36 @@ export function ValueProps({ dict }: { dict: Dictionary["valueProps"] }) {
         />
 
         <Reveal stagger className="mt-14 grid gap-5 md:grid-cols-3">
-          {dict.cards.map((card, i) => (
+          {dict.cards.map((card, i) => {
+            const media = MEDIA[i];
+            return (
             <div key={card.title} className="group rounded-2xl">
-              <div className="flex h-72 w-full flex-col overflow-hidden rounded-2xl border border-border bg-surface-2/50 pl-6 pt-4 transition-colors group-hover:border-accent/40">
+              <div className="flex h-72 w-full flex-col overflow-hidden rounded-2xl border border-border bg-surface-2 pl-6 pt-4 transition-colors group-hover:border-accent/40">
                 <h4 className="text-base font-bold">{card.title}</h4>
 
                 <div className="relative mt-4 flex-1 overflow-hidden rounded-tl-lg">
-                  <Image
-                    src={IMAGES[i] ?? IMAGES[0]}
-                    alt={card.title}
-                    fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  />
+                  {media && "video" in media ? (
+                    // Decorative loop: muted is what makes autoplay allowed at
+                    // all, and playsInline stops iOS going fullscreen.
+                    <video
+                      src={media.video}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="metadata"
+                      aria-hidden
+                      className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105 pr-8 pb-8 pl-2 pt-2"
+                    />
+                  ) : (
+                    <Image
+                      src={media.image}
+                      alt={card.title}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
+                  )}
                 </div>
               </div>
               <h3 className="mt-5 text-xl font-bold tracking-tight">
@@ -50,7 +67,8 @@ export function ValueProps({ dict }: { dict: Dictionary["valueProps"] }) {
               </h3>
               <p className="mt-2 text-muted font-extralight">{card.body}</p>
             </div>
-          ))}
+            );
+          })}
         </Reveal>
       </div>
     </section>

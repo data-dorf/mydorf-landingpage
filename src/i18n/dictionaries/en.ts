@@ -66,14 +66,6 @@ const en: Dictionary = {
         body: "Whatever system you're on today, we'll help you move to Mydorf the easy way.",
       },
       {
-        title: "Build your own campaigns & promotions",
-        body: "Set up promotions, discounts and coupons however you like — and actually drive sales.",
-      },
-      {
-        title: "Turn points into loyal customers",
-        body: "Build the relationship, grow repeat purchases, turn buyers into regulars.",
-      },
-      {
         title: "Analyse your data from every angle",
         body: "See everything in real time and plan your marketing with precision.",
       },
@@ -87,24 +79,37 @@ const en: Dictionary = {
       {
         title: "Live Selling Capture",
         body: "Connect Facebook, TikTok and LINE to capture comments and messages automatically in real time.",
-        points: ["Multi-platform support", "Auto replies", "CF keyword detection"],
+        points: [
+          "Multi-platform support",
+          "Auto replies",
+          "CF keyword detection",
+        ],
       },
       {
         title: "Order Management",
         body: "Consolidate orders from every channel, deduct stock in real time and verify payments automatically.",
-        points: ["Unified orders", "Auto stock deduction", "Auto slip verification"],
+        points: [
+          "Unified orders",
+          "Auto stock deduction",
+          "Auto slip verification",
+        ],
       },
       {
         title: "Shipping & Tracking",
         body: "Connect leading couriers, print labels and send tracking numbers to customers automatically.",
-        points: ["Multiple couriers", "Auto label printing", "Tracking notifications"],
+        points: [
+          "Multiple couriers",
+          "Auto label printing",
+          "Tracking notifications",
+        ],
       },
     ],
   },
   bento: {
     eyebrow: "Platform",
     title: "What's inside Mydorf?",
-    description: "Six core building blocks that cover the whole online-selling cycle.",
+    description:
+      "Six core building blocks that cover the whole online-selling cycle.",
     features: [
       {
         title: "Inventory Management",
@@ -139,7 +144,10 @@ const en: Dictionary = {
       "Know which products sell, which customers buy again, and which channel is most profitable.",
     items: [
       { title: "Best Sellers", body: "Rank your top-selling products." },
-      { title: "Repeat Customers", body: "Identify regulars and lifetime value." },
+      {
+        title: "Repeat Customers",
+        body: "Identify regulars and lifetime value.",
+      },
       { title: "Profitable Channels", body: "Compare sales across platforms." },
       { title: "Customer Reviews", body: "Collect reviews to build trust." },
     ],
@@ -194,6 +202,10 @@ const en: Dictionary = {
     description: "Get answers to common questions here",
     items: [
       {
+        q: "Does it really capture Live comments?",
+        a: "Absolutely. Mydorf captures comments in real time, detects CF keywords and product codes, then creates orders automatically.",
+      },
+      {
         q: "Is my shop and customer data safe?",
         a: "Yes. We use industry-grade encryption, secure servers and full PDPA compliance to protect your data at all times.",
       },
@@ -204,10 +216,6 @@ const en: Dictionary = {
       {
         q: "How do I get started?",
         a: "Start a 14-day free trial, no credit card required. Connect your page and start capturing Live orders within minutes.",
-      },
-      {
-        q: "Does it really capture Live comments?",
-        a: "Absolutely. Mydorf captures comments in real time, detects CF keywords and product codes, then creates orders automatically.",
       },
     ],
   },
@@ -224,11 +232,11 @@ const en: Dictionary = {
     columns: [
       {
         title: "Product",
-        links: ["Features", "Pricing", "Integrations", "How it works"],
+        links: ["Features", "Pricing", "How it works"],
       },
       {
         title: "Company",
-        links: ["About us", "Careers", "Blog", "Contact"],
+        links: ["About us", "Contact"],
       },
       {
         title: "Legal",

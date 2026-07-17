@@ -5,6 +5,9 @@ import { SectionHeading } from "../ui/SectionHeading";
 
 const ICONS = [TrendingUp, Repeat, Share2, Star];
 
+// Files in public/ are served straight from the root — no import needed.
+const ANALYSIS_VIDEO = "/animated/ValueProps/analysis.webm";
+
 export function Analytics({ dict }: { dict: Dictionary["analytics"] }) {
   return (
     <section className="py-24">
@@ -28,7 +31,9 @@ export function Analytics({ dict }: { dict: Dictionary["analytics"] }) {
                     </span>
                     <div>
                       <div className="font-bold">{item.title}</div>
-                      <div className="text-sm text-muted font-light">{item.body}</div>
+                      <div className="text-sm text-muted font-light">
+                        {item.body}
+                      </div>
                     </div>
                   </div>
                 );
@@ -53,7 +58,20 @@ export function Analytics({ dict }: { dict: Dictionary["analytics"] }) {
                 </span>
               </div>
 
-              <div className="mt-8 flex h-40 items-end gap-2.5">
+              {/* Decorative loop: muted is what makes autoplay allowed at all,
+                  and playsInline stops iOS going fullscreen. */}
+              <video
+                src={ANALYSIS_VIDEO}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                aria-hidden
+                className="mt-6 h-40 w-full object-contain"
+              />
+
+              {/* <div className="mt-8 flex h-40 items-end gap-2.5">
                 {[42, 58, 47, 70, 63, 85, 78, 96].map((h, i) => (
                   <div key={i} className="flex flex-1 flex-col justify-end">
                     <div
@@ -64,7 +82,7 @@ export function Analytics({ dict }: { dict: Dictionary["analytics"] }) {
                     />
                   </div>
                 ))}
-              </div>
+              </div> */}
               <div className="mt-4 grid grid-cols-3 gap-3 border-t border-border pt-4 text-center">
                 {dict.chart.stats.map((s) => (
                   <div key={s.label}>

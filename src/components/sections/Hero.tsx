@@ -1,12 +1,16 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/Button";
 import type { Dictionary } from "@/i18n";
 import { TextGradient } from "../ui/TextGradient";
+import { BlurText } from "../ui/BlurText";
+import { SectionFocus } from "../ui/SectionFocus";
+import exampleShot from "@/../public/images/example/index.png";
 
 // const AVATARS = ["#6a48f7", "#26c9e8", "#fca5a5", "#c4b5fd", "#fcd34d"];
 
@@ -18,8 +22,9 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
       const tl = gsap.timeline({
         defaults: { ease: "power3.out", duration: 1 },
       });
+      // The headline is handled by <BlurText>, so it isn't in this timeline —
+      // animating it here too would fight over opacity.
       tl.from(".hero-badge", { y: 20, autoAlpha: 0 })
-        .from(".hero-line", { y: 40, autoAlpha: 0, stagger: 0.12 }, "-=0.7")
         .from(".hero-sub", { y: 24, autoAlpha: 0 }, "-=0.7")
         .from(".hero-cta", { y: 24, autoAlpha: 0 }, "-=0.7")
         .from(".hero-trust", { y: 24, autoAlpha: 0 }, "-=0.6")
@@ -40,9 +45,15 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
           </span> */}
 
           <h1 className="mt-6 text-balance text-5xl font-bold leading-[1.08] tracking-tight sm:text-6xl md:text-7xl">
-            <span className="hero-line block">{dict.titleLead}</span>
-            <span className="hero-line block">
-              <TextGradient>{dict.titleAccent}</TextGradient> {dict.titleTail}
+            <BlurText as="span" text={dict.titleLead} className="block" />
+            <span className="block">
+              {/* BlurText wraps TextGradient rather than sitting inside it —
+                  the gradient is painted by TextGradient's own background, so
+                  fading a child within it would have no effect. */}
+              <BlurText as="span" delay={0.3}>
+                <TextGradient>{dict.titleAccent}</TextGradient>
+              </BlurText>{" "}
+              <BlurText as="span" text={dict.titleTail} delay={0.45} />
             </span>
           </h1>
 
@@ -81,6 +92,18 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
             </div>
           </div> */}
         </div>
+
+        {/* Sits outside the max-w-3xl text block so it can use the full
+            container width rather than being capped at the headline's measure. */}
+        <SectionFocus restScale={0.9} restOpacity={0.25} className="mt-14">
+          <Image
+            src={exampleShot}
+            alt="Mydorf"
+            placeholder="blur"
+            sizes="(min-width: 1216px) 1168px, 100vw"
+            className="h-auto w-full rounded-2xl border-8 border-border"
+          />
+        </SectionFocus>
 
         {/* <div className="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-4">
           {dict.stats.map((s) => (
