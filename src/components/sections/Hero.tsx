@@ -11,6 +11,7 @@ import { TextGradient } from "../ui/TextGradient";
 import { BlurText } from "../ui/BlurText";
 import { SectionFocus } from "../ui/SectionFocus";
 import exampleShot from "@/../public/images/example/index.png";
+import { trialLinkProps } from "@/utils/trial";
 
 // const AVATARS = ["#6a48f7", "#26c9e8", "#fca5a5", "#c4b5fd", "#fcd34d"];
 
@@ -62,7 +63,7 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
           </p>
 
           <div className="hero-cta mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button href="#pricing" variant="gradient" className="px-6 py-3 text-base! font-semibold">
+            <Button {...trialLinkProps} variant="gradient" className="px-6 py-3 text-base! font-semibold">
               {dict.ctaTrial}
               <ArrowRight
                 size={18}

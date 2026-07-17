@@ -1,18 +1,23 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Radio, Receipt, Truck, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import type { Dictionary } from "@/i18n";
+// Static imports: Next reads each PNG's dimensions and builds a blur
+// placeholder. Paired with dict.pipeline.tools by index — add a tool and drop
+// its image here.
+import absorbComment from "@/../public/images/Pipeline/absorb_comment.png";
+import orderManagement from "@/../public/images/Pipeline/order_management.png";
+import trackingShipping from "@/../public/images/Pipeline/tracking_shipping.png";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// Paired with dict.pipeline.tools by index. Add a tool to the dictionary and
-// drop an icon here — the nav and the content column both grow automatically.
-const IMAGES_FEATURE = [Radio, Receipt, Truck];
+const IMAGES = [absorbComment, orderManagement, trackingShipping];
 
 export function Pipeline({ dict }: { dict: Dictionary["pipeline"] }) {
   const [active, setActive] = useState(0);
@@ -115,7 +120,7 @@ export function Pipeline({ dict }: { dict: Dictionary["pipeline"] }) {
                 lg:mt-10 mirrors the nav's mt-10 so the two line up. */}
             <div className="flex flex-col gap-20 lg:mt-10 lg:gap-28">
             {dict.tools.map((tool, i) => {
-              const Image = IMAGES_FEATURE[i];
+              const image = IMAGES[i];
               return (
                 <div
                   key={tool.title}
@@ -124,9 +129,6 @@ export function Pipeline({ dict }: { dict: Dictionary["pipeline"] }) {
                   }}
                   className="scroll-mt-32 will-change-[transform,opacity]"
                 >
-                  {/* <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent-solid text-accent-foreground">
-                    <Icon size={22} />
-                  </span> */}
                   <h3 className="mt-5 text-2xl font-bold tracking-tight th:tracking-normal">
                     {tool.title}
                   </h3>
@@ -143,9 +145,18 @@ export function Pipeline({ dict }: { dict: Dictionary["pipeline"] }) {
                     ))}
                   </ul>
 
-                  {/* Visual slot — swap for a real screenshot per tool later. */}
                   <div className="relative mt-8 aspect-16/10 overflow-hidden rounded-2xl border border-border bg-surface">
-                    <div className="glow-accent pointer-events-none absolute inset-x-0 top-0 h-40 opacity-60" />
+                    <div className="glow-accent pointer-events-none absolute inset-x-0 top-0 z-10 h-40 opacity-60" />
+                    {image && (
+                      <Image
+                        src={image}
+                        alt={tool.title}
+                        fill
+                        placeholder="blur"
+                        sizes="(min-width: 1024px) 60vw, 100vw"
+                        className="object-cover"
+                      />
+                    )}
                   </div>
                 </div>
               );

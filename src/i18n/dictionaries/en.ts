@@ -188,6 +188,7 @@ const en: Dictionary = {
     monthly: "Monthly",
     credits: "Credits",
     perUnit: "/mo",
+    free: "Free",
     mostPopular: "Most Popular",
     trialCta: "Start 14-Day Free Trial",
     creditsUnit: "credits",

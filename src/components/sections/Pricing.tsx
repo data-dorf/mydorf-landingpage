@@ -17,8 +17,10 @@ import {
   bonusPercent,
   type PricingTab,
 } from "@/contexts/PricingPackage";
+import { trialLinkProps } from "@/utils/trial";
 
-const POPULAR_CARD = "border-2 border-accent/50 bg-surface shadow-[0_8px_30px_-8px] shadow-accent-solid/40";
+const POPULAR_CARD =
+  "border-2 border-accent/50 bg-surface shadow-[0_8px_30px_-8px] shadow-accent-solid/40";
 const PLAIN_CARD = "border border-border bg-surface/50";
 
 export function Pricing({
@@ -66,7 +68,7 @@ export function Pricing({
         {tab === "subscription" ? (
           <Reveal
             stagger
-            className="mx-auto mt-12 grid max-w-4xl gap-5 md:grid-cols-2"
+            className="mx-auto mt-12 grid max-w-4xl gap-5 md:grid-cols-3"
           >
             {pricingPackage.map((pkg) => {
               const plan = localizePackage(pkg, locale);
@@ -82,17 +84,21 @@ export function Pricing({
                       {dict.mostPopular}
                     </span>
                   )}
-                  <h3 className="text-xl font-bold tracking-tight">{plan.name}</h3>
+                  <h3 className="text-xl font-bold tracking-tight">
+                    {plan.name}
+                  </h3>
                   <p className="mt-1 text-sm text-muted">{plan.description}</p>
 
                   <div className="mt-6 flex items-end gap-1">
-                    <span className="text-5xl font-semibold tracking-tight">
-                      {formatPrice(pkg)}
+                    <span className="text-5xl font-bold tracking-tight">
+                      {pkg.monthlyPrice > 0 ? formatPrice(pkg) : dict.free}
                     </span>
-                    <span className="mb-1.5 text-sm text-muted">{dict.perUnit}</span>
+                    <span className="mb-1.5 text-sm text-muted">
+                      {dict.perUnit}
+                    </span>
                   </div>
 
-                  <ul className="mt-8 flex flex-col gap-3">
+                  <ul className="mt-8 flex flex-1 flex-col gap-3">
                     {plan.features.map((f) => (
                       <li
                         key={f.id}
@@ -121,7 +127,7 @@ export function Pricing({
                   </ul>
 
                   <Button
-                    href="#"
+                    {...trialLinkProps}
                     variant={plan.popular ? "gradient" : "secondary"}
                     className="mt-8 w-full py-3"
                   >
@@ -134,7 +140,9 @@ export function Pricing({
         ) : (
           <>
             <Reveal className="mx-auto mt-8 max-w-xl text-center">
-              <p className="text-balance text-sm text-muted">{dict.creditsNote}</p>
+              <p className="text-balance text-sm text-muted">
+                {dict.creditsNote}
+              </p>
             </Reveal>
 
             <Reveal

@@ -53,12 +53,12 @@ export const featureRows: FeatureRow[] = [
     label: { th: "ดักคอมเมนต์ไลฟ์", en: "Live comment capture" },
   },
   { id: "orders", label: { th: "จำนวนออเดอร์", en: "Orders" } },
-  { id: "couriers", label: { th: "เชื่อมขนส่ง", en: "Courier connections" } },
   { id: "reports", label: { th: "รายงานยอดขาย", en: "Sales reports" } },
   {
     id: "slip-cod",
-    label: { th: "ยืนยันสลิป & COD อัตโนมัติ", en: "Auto slip verification & COD" },
+    label: { th: "ยืนยันสลิปอัตโนมัติ", en: "Auto slip verification" },
   },
+  { id: "couriers", label: { th: "เชื่อมขนส่ง", en: "Courier connections" } },
 ];
 
 /* -------------------------------------------------------------------------
@@ -82,8 +82,33 @@ export interface PricingPackage {
 
 export const pricingPackage: PricingPackage[] = [
   {
+    id: "free",
+    monthlyPrice: 0,
+    name: { th: "ฟรี", en: "free" },
+    description: {
+      th: "ทดลองใช้งานระบบ",
+      en: "Essential tools for a small shop.",
+    },
+    features: {
+      "live-capture": {
+        th: "ดักคอมเมนต์ไลฟ์ 1 ช่อง",
+        en: "Live capture for 1 channel(TikTok)",
+      },
+      orders: {
+        th: "ออเดอร์สูงสุด 10 รายการ/เดือน",
+        en: "Up to 10 orders / month",
+      },
+      // couriers: { th: "เชื่อมขนส่งพื้นฐาน", en: "Basic courier connections" },
+      reports: { th: "รายงานยอดขายพื้นฐาน", en: "Basic sales reports" },
+      "slip-cod": {
+        th: "ยืนยันสลิปอัตโนมัติ 10 สลิป/เดือน",
+        en: "Auto slip verification 10 slips/month",
+      },
+    },
+  },
+  {
     id: "starter",
-    monthlyPrice: 590,
+    monthlyPrice: 2900,
     name: { th: "เริ่มต้น", en: "Starter" },
     description: {
       th: "เครื่องมือที่จำเป็นสำหรับร้านเล็ก",
@@ -91,22 +116,25 @@ export const pricingPackage: PricingPackage[] = [
     },
     features: {
       "live-capture": {
-        th: "ดักคอมเมนต์ไลฟ์ 1 เพจ",
-        en: "Live capture for 1 page",
+        th: "ดักคอมเมนต์ไลฟ์ 1 ช่อง(TikTok)",
+        en: "Live capture for 1 channel(TikTok)",
       },
       orders: {
-        th: "ออเดอร์สูงสุด 500 รายการ/เดือน",
-        en: "Up to 500 orders / month",
+        th: "ออเดอร์สูงสุด 1,750 รายการ/เดือน",
+        en: "Up to 1,750 orders / month",
       },
       couriers: { th: "เชื่อมขนส่งพื้นฐาน", en: "Basic courier connections" },
       reports: { th: "รายงานยอดขายพื้นฐาน", en: "Basic sales reports" },
-      // "slip-cod" omitted → shown greyed out
+      "slip-cod": {
+        th: "ยืนยันสลิปอัตโนมัติ 1,750 สลิป/เดือน",
+        en: "Auto slip verification 1,750 slips/month",
+      },
     },
   },
   {
     id: "pro",
     popular: true,
-    monthlyPrice: 1290,
+    monthlyPrice: 6900,
     name: { th: "โปร", en: "Pro" },
     description: {
       th: "ครบทุกฟีเจอร์สำหรับร้านที่กำลังโต",
@@ -114,12 +142,12 @@ export const pricingPackage: PricingPackage[] = [
     },
     features: {
       "live-capture": {
-        th: "ดักคอมเมนต์ไลฟ์ไม่จำกัดเพจ",
-        en: "Live capture for unlimited pages",
+        th: "ดักคอมเมนต์ไลฟ์ไม่จำกัดช่อง (TikTok)",
+        en: "Live capture for unlimited channel (TikTok)",
       },
       orders: { th: "ออเดอร์ไม่จำกัด", en: "Unlimited orders" },
       couriers: { th: "เชื่อมขนส่งทุกเจ้า", en: "All courier connections" },
-      reports: { th: "รายงานเชิงลึก & AI", en: "Advanced reports & AI" },
+      reports: { th: "รายงานเชิงลึก & วิเคราะห์ธุรกิจ", en: "Advanced reports & Insight Business" },
       "slip-cod": true,
     },
   },

@@ -11,6 +11,7 @@ import { Button } from "./ui/Button";
 import { PreferencesMenu } from "./PreferencesMenu";
 import type { Dictionary } from "@/i18n";
 import logoMark from "@/../public/images/logo/logo-only.svg";
+import { trialLinkProps } from "@/utils/trial";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -110,7 +111,7 @@ export function Navbar({ dict, locale }: { dict: Dictionary; locale: string }) {
             <Button href="https://app.mydorf.com" variant="ghost">
               {dict.nav.login}
             </Button>
-            <Button href="#pricing">{dict.nav.cta}</Button>
+            <Button {...trialLinkProps}>{dict.nav.cta}</Button>
           </div>
 
           <button
@@ -148,7 +149,7 @@ export function Navbar({ dict, locale }: { dict: Dictionary; locale: string }) {
                 theme={dict.theme}
                 language={dict.language}
               />
-              <Button href="#pricing" className="flex-1">
+              <Button {...trialLinkProps} className="flex-1">
                 {dict.nav.cta}
               </Button>
             </div>

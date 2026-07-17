@@ -81,6 +81,8 @@ export interface Dictionary {
     monthly: string;
     credits: string;
     perUnit: string;
+    /** Shown as the price when a plan's monthlyPrice is 0. */
+    free: string;
     mostPopular: string;
     trialCta: string;
     /** Credits tab */
